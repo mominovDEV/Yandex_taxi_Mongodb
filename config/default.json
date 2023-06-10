@@ -1,0 +1,4 @@
+{
+  "port": 7777,
+  "ATLAS_URI": "mongodb+srv://mardonmominov35:mardonmominov@cluster0.rghuqyi.mongodb.net/yandex?retryWrites=true&w=majority"
+}
