@@ -19,6 +19,7 @@ async function start() {
     });
   } catch (error) {
     console.log("Serverda xatolik");
+    console.log(error);
   }
 }
 

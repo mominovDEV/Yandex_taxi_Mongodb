@@ -5,9 +5,6 @@ const Price_type = require("../models/Price_type");
 const Rent = require("../models/Rent");
 // const Client = require("../models/Client")
 
-const errorHandler = (res, error) => {
-  res.status(500).send({ message: `Xatolik : ${error}` });
-};
 
 const addRent = async (req, res) => {
   try {

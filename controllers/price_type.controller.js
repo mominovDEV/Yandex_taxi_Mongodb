@@ -1,10 +1,6 @@
 const { errorHandler } = require("../helpers/error_handler");
 const Price_type = require("../models/Price_type");
 
-const errorHandler = (res, error) => {
-  res.status(500).send({ message: `Xatolik : ${error}` });
-};
-
 const addPrice_type = async (req, res) => {
   try {
     const { price_per_day, price_per_hour, late_fee_per_hour } = req.body;

@@ -1,9 +1,6 @@
 const { errorHandler } = require("../helpers/error_handler");
 const Client = require("../models/Client");
 const Rent = require("../models/Rent");
-const errorHandler = (res, error) => {
-  return res.status(500).send({ message: `Xatolik : ${error}` });
-};
 
 const addClient = async (req, res) => {
   try {
