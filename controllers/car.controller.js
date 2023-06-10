@@ -1,104 +1,111 @@
 const { errorHandler } = require("../helpers/error_handler");
 const Car = require("../models/Car");
+const Price_type = require("../models/Price_type");
+const Rent = require("../models/Rent");
+const Client = require("../models/Client");
 
-//addCars
-const addCars = async (req, res) => {
+const errorHandler = (res, error) => {
+  return res.status(500).send({ message: `Xatolik : ${error}` });
+};
+
+const addCar = async (req, res) => {
   try {
-    const {
+    const { car_number, make, model, year, mileage, price_type_id } = req.body;
+    const data = await Price_type.findOne({ _id: price_type_id });
+    if (data == null) return res.status(400).send("Id is incorrect");
+    const result = await Car({
       car_number,
       make,
       model,
       year,
       mileage,
-      // price_type_id,
-      
-    } = req.body;
-    const newCar = await Car({
-      car_number,
-      make,
-      model,
-      year,
-      mileage,
-      // price_type_id,
+      price_type_id,
     });
-    // await newCar.validate();
-    await newCar.save();
-    res.status(200).send({ message: "Car qushildi" });
+    await result.save();
+    res.status(200).send("Ok. CarInfo is added");
   } catch (error) {
     errorHandler(res, error);
   }
 };
 
-//getCars
 const getCars = async (req, res) => {
   try {
-    const Cars = await Car.find({});
-    if (!Cars) {
-      return res.status(400).send({ message: "Car topilmadi" });
-    }
-    res.json({ Cars });
+    const data = await Car.find({});
+    if (!data) return res.status(400).send("Data not found");
+    res.status(200).send(data);
   } catch (error) {
     errorHandler(res, error);
   }
 };
 
-//getCarsById
-const getCarsById = async (req, res) => {
-  const Cars = await Car.findOne({ _id: req.params.id });
-  if (!Cars) {
-    return res.status(400).send({ message: "Car topilmadi" });
-  }
-  console.log(Car);
-  res.json({ Car });
+const getCar = async (req, res) => {
   try {
+    const id = req.params.id;
+    const idData = await Car.findOne({ _id: id });
+    if (idData == null) return res.status(400).send("Id is incorrect");
+    const data = await Car.findById(id);
+    res.status(200).send(data);
   } catch (error) {
     errorHandler(res, error);
   }
 };
 
-// UpdateCars
-const updateCars = async (req, res) => {
+const updateCar = async (req, res) => {
   try {
-    const {
-      first_name,
-      last_name,
-      age,
-      passport,
-      driver_license,
-      adress,
-      phone,
-    } = req.body;
-    const Car = await Car.updateOne(
-      { _id: req.params.id },
-      { first_name, last_name, age, passport, driver_license, adress, phone }
+    const id = req.params.id;
+    const { car_number, make, model, year, mileage, price_type_id } = req.body;
+    const idData = await Car.findOne({ _id: id });
+    if (idData == null) return res.status(400).send("Id is incorrect");
+    const data = await Car.findByIdAndUpdate(
+      { _id: id },
+      { car_number, make, model, year, mileage, price_type_id }
     );
-    if (Car.modifiedCount === 0) {
-      res.status(404).json({ message: "Car already updated" });
-    } else {
-      res.status(201).json({ message: "Car updated successfully" });
-    }
+    res.status(200).send("Ok. Carinfo is updated");
   } catch (error) {
     errorHandler(res, error);
   }
 };
-
-// DeleteCars
-const deleteCarById = async (req, res) => {
-  const Car = await Car.deleteOne({ _id: req.params.id });
-  if (!Car) {
-    return res.status(400).send({ message: "Car uchirilmadi" });
-  }
-  res.json({ Car });
+const deleteCar = async (req, res) => {
   try {
+    const id = req.params.id;
+    const idData = await Car.findById(id);
+    if (idData < 1) return res.status(400).send("Id boyicha malumot topilmadi");
+    await Car.findByIdAndDelete({ _id: id });
+    res.status(200).send("Ok. carinfo is deleted");
   } catch (error) {
     errorHandler(res, error);
   }
 };
 
+const getCarClients = async (req, res) => {
+  try {
+    const { car_number, from_datetime, to_datetime } = req.body;
+    const car = await Car.find({ car_number });
+    const ish = car[0].id;
+    const rent = await Rent.find({
+      car_id: ish,
+      from_datetime: { $lte: from_datetime },
+      to_datetime: { $gte: to_datetime },
+    });
+    // const clid = rent[0].client_id
+    // const clientData = await Client.findById(clid)
+    let answer = [];
+    for (let obj of rent) {
+      const id = obj.client_id;
+      const result = await Client.findOne({ _id: id });
+      answer.push(result);
+    }
+
+    res.status(200).send(answer);
+  } catch (error) {
+    errorHandler(res, error);
+  }
+};
 module.exports = {
-  addCars,
+  addCar,
+  getCar,
   getCars,
-  getCarsById,
-  updateCars,
-  deleteCarById,
+  updateCar,
+  deleteCar,
+  getCarClients,
 };

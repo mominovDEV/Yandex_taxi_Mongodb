@@ -1,16 +1,20 @@
 const { Schema, model } = require("mongoose");
 
-const price_typeSchema = new Schema(
+const priceSchema = new Schema(
   {
-    price_per_dar: { type: String},
-    price_per_hour: { type: String},
-    late_fee_per_hour: { type: Number },
-
+    price_per_day: {
+      type: Number,
+      required: true,
+    },
+    price_per_hour: {
+      type: Number,
+      required: true,
+    },
+    late_fee_per_hour: {
+      type: Number,
+    },
   },
-  {
-    versionKey: false,
-  }
+  { versionKey: false }
 );
 
-
-module.exports = model("price_type", price_typeSchema);
+module.exports = model("Price_type", priceSchema);

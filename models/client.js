@@ -2,18 +2,38 @@ const { Schema, model } = require("mongoose");
 
 const clientSchema = new Schema(
   {
-    first_name: { type: String, required: true, trim: true },
-    last_name: { type: String, required: true, trim: true },
-    age: { type: Number, min: 18 },
-    passport: { type: Number },
-    driver_license: { type: Number },
-    adress: { type: String },
-    phone: { tye: Number },
+    first_name: {
+      type: String,
+      required: true,
+    },
+    last_name: {
+      type: String,
+      required: true,
+    },
+    birthday: {
+      type: Date,
+      required: true,
+    },
+    passport: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    driver_license: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    adress: {
+      type: String,
+      unique: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
   },
-  {
-    versionKey: false,
-  }
+  { versionKey: false }
 );
 
-
-module.exports = model("client", clientSchema);
+module.exports = model("Client", clientSchema);
