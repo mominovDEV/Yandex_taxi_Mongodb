@@ -15,20 +15,5 @@ const clientSchema = new Schema(
   }
 );
 
-const rentSchema = new Schema(
-  {
-    car_id: { type: String, required: true, trim: true },
-    client_id: { type: String, required: true, trim: true },
-    from_datetime: { type: Number, min: 18 },
-    to_datetime: { type: Number },
-    driver_license: { type: Number },
-    adress: { type: String },
-    phone: { tye: Number },
-  },
-  {
-    versionKey: false,
-  }
-);
 
 module.exports = model("client", clientSchema);
-module.exports = model("rent", rentSchema);
