@@ -30,7 +30,14 @@ const clientSchema = new Schema(
     },
     phone: {
       type: String,
-      required: true,
+      validate: {
+        validator: function (value) {
+          return /\d{2}-\d{3}-\d{2}-\d{2}/.test(value);
+        },
+        message: (props) => `${props.value}-raqam notug'ri Namuna:(99-777-77-77)`,
+      },
+      maxLength: 12,
+      index: true,
     },
   },
   { versionKey: false }

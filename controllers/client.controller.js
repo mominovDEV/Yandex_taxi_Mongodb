@@ -1,7 +1,7 @@
 const { errorHandler } = require("../helpers/error_handler");
 const Client = require("../models/Client");
 const Rent = require("../models/Rent");
-
+// addclient
 const addClient = async (req, res) => {
   try {
     const {
@@ -36,12 +36,12 @@ const addClient = async (req, res) => {
       phone,
     });
     await data.save();
-    res.status(200).send("OK. Client is added");
+    res.status(200).send("Client is added");
   } catch (error) {
     errorHandler(res, error);
   }
 };
-
+// get clients
 const getClients = async (req, res) => {
   try {
     const data = await Client.find({});
@@ -51,7 +51,7 @@ const getClients = async (req, res) => {
     errorHandler(res, error);
   }
 };
-
+// getclientByid
 const getClient = async (req, res) => {
   try {
     const id = req.params.id;
@@ -62,7 +62,7 @@ const getClient = async (req, res) => {
     errorHandler(res, error);
   }
 };
-
+// updateClients
 const updateClient = async (req, res) => {
   try {
     const id = req.params.id;
@@ -94,18 +94,19 @@ const updateClient = async (req, res) => {
     errorHandler(res, error);
   }
 };
-
+// deleteClients
 const deleteClient = async (req, res) => {
   try {
     const id = req.params.id;
     const data = await Client.findById(id);
     if (!data) return res.status(400).send("Id xato kiritlgan");
     await Client.findByIdAndDelete(id);
-    res.status(200).send("Ok. ClientInfo is deleted! ");
+    res.status(200).send("Client is deleted! "); 
   } catch (error) {
     errorHandler(res, error);
   }
 };
+
 const informationClient = async (req, res) => {
   try {
     const info = req.body;
