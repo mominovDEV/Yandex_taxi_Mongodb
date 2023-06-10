@@ -10,7 +10,7 @@ const addPrice_type = async (req, res) => {
       late_fee_per_hour,
     });
     await data.save();
-    res.status(200).send("OK. Price is added");
+    res.status(200).send("Price is added!");
   } catch (error) {
     errorHandler(res, error);
   }

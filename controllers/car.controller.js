@@ -76,15 +76,13 @@ const deleteCar = async (req, res) => {
 const getCarClients = async (req, res) => {
   try {
     const { car_number, from_datetime, to_datetime } = req.body;
-    const car = await Car.find({ car_number });
+    const car = await Car.find({ car_number }); // avtomobil raqamidan oladi
     const ish = car[0].id;
     const rent = await Rent.find({
       car_id: ish,
       from_datetime: { $lte: from_datetime },
       to_datetime: { $gte: to_datetime },
     });
-    // const clid = rent[0].client_id
-    // const clientData = await Client.findById(clid)
     let answer = [];
     for (let obj of rent) {
       const id = obj.client_id;
