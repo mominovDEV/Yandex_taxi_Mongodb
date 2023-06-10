@@ -7,7 +7,7 @@
     "dev": "nodemon app"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mardon Mo'minov",
   "license": "ISC",
   "dependencies": {
     "config": "^3.3.9",
